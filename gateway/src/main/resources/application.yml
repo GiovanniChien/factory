@@ -7,3 +7,5 @@ server:
 spring:
   application:
     name: gateway-zuul
+zuul:
+  retryable: false
