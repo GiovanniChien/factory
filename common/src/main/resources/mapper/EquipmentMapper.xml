@@ -24,6 +24,11 @@
     from t_equipment
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+   select  * from t_equipment
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_equipment
     where id = #{id,jdbcType=INTEGER}

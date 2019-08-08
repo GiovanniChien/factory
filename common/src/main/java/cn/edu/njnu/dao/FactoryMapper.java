@@ -2,6 +2,8 @@ package cn.edu.njnu.dao;
 
 import cn.edu.njnu.model.Factory;
 
+import java.util.List;
+
 public interface FactoryMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface FactoryMapper {
     int updateByPrimaryKeySelective(Factory record);
 
     int updateByPrimaryKey(Factory record);
+
+    List<Factory> selectAll();
 }
