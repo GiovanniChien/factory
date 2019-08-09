@@ -16,20 +16,47 @@
         <result column="factory_worker" property="factoryWorker" jdbcType="INTEGER"/>
         <result column="factory_status" property="factoryStatus" jdbcType="INTEGER"/>
     </resultMap>
+
+    <resultMap id="VoResultMap" type="cn.edu.njnu.vo.FactoryVo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="flag" property="flag" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_userid" property="createUserid" jdbcType="INTEGER"/>
+        <result column="create_user_name" property="createUserName"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_userid" property="updateUserid" jdbcType="INTEGER"/>
+        <result column="update_user_name" property="updateUserName"/>
+        <result column="bak" property="bak" jdbcType="VARCHAR"/>
+        <result column="factory_name" property="factoryName" jdbcType="VARCHAR"/>
+        <result column="factory_img_url" property="factoryImgUrl" jdbcType="VARCHAR"/>
+        <result column="factory_addr" property="factoryAddr" jdbcType="VARCHAR"/>
+        <result column="factory_url" property="factoryUrl" jdbcType="VARCHAR"/>
+        <result column="factory_worker" property="factoryWorker" jdbcType="INTEGER"/>
+        <result column="factory_status" property="factoryStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id, flag, create_time, create_userid, update_time, update_userid, bak, factory_name,
     factory_img_url, factory_addr, factory_url, factory_worker, factory_status
     </sql>
+    <sql id="Vo_SQL">
+        f.id, f.flag, f.create_time, f.create_userid, f.update_time, f.update_userid, f.bak, f.factory_name,
+        f.factory_img_url, f.factory_addr, f.factory_url, f.factory_worker, f.factory_status,
+        u1.user_real_name create_user_name, u2.user_real_name update_user_name
+    </sql>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from t_factory
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER} and flag = 0
     </select>
-    <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="VoResultMap">
         select
-        <include refid="Base_Column_List"/>
-        from t_factory
+        <include refid="Vo_SQL"/>
+        from t_factory f join t_user u1 on f.create_userid = u1.id
+        join t_user u2 on f.update_userid=u2.id
+        where f.flag = 0
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete

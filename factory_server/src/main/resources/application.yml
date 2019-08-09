@@ -11,7 +11,7 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://39.96.86.93:3306/factory
+    url: jdbc:mysql://localhost:3306/factory?serverTimezone=GMT%2B8
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
@@ -36,7 +36,7 @@ spring:
   #redis配置
   redis:
     database: 2
-    host: 39.96.86.93
+    host: localhost
     port: 6379
     password:
     timeout: 10000ms
@@ -45,6 +45,8 @@ spring:
         max-wait: -1ms
         max-active: 8
         max-idle: 8
+  jackson:
+    time-zone: GMT+8
 
 mybatis:
   config-location: classpath:mybatis-config.xml

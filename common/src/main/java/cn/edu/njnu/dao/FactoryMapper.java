@@ -1,6 +1,7 @@
 package cn.edu.njnu.dao;
 
 import cn.edu.njnu.model.Factory;
+import cn.edu.njnu.vo.FactoryVo;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface FactoryMapper {
 
     int updateByPrimaryKey(Factory record);
 
-    List<Factory> selectAll();
+    List<FactoryVo> selectAll();
 }
