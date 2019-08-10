@@ -58,11 +58,11 @@
         join t_user u2 on f.update_userid=u2.id
         where f.flag = 0
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete
-        from t_factory
+    <update id="deleteByPrimaryKey">
+        update t_factory
+        set flag = 1
         where id = #{id,jdbcType=INTEGER}
-    </delete>
+    </update>
     <insert id="insert" parameterType="cn.edu.njnu.model.Factory">
         insert into t_factory (id, flag, create_time,
                                create_userid, update_time, update_userid,
@@ -75,7 +75,7 @@
                 #{factoryAddr,jdbcType=VARCHAR}, #{factoryUrl,jdbcType=VARCHAR}, #{factoryWorker,jdbcType=INTEGER},
                 #{factoryStatus,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="cn.edu.njnu.model.Factory">
+    <insert id="insertSelective" parameterType="cn.edu.njnu.model.Factory" useGeneratedKeys="true" keyProperty="id">
         insert into t_factory
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

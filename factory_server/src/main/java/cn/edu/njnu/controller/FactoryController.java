@@ -6,12 +6,14 @@ import cn.edu.njnu.vo.FactoryVo;
 import cn.edu.njnu.vo.Result;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FactoryController {
@@ -43,12 +45,45 @@ public class FactoryController {
     }
 
     @PostMapping("update_status")
-    public Result<Factory> updateStatus(@RequestBody Factory factory){
+    public Result<Factory> updateStatus(@RequestBody Factory factory) {
         Factory res = service.changeStatus(factory);
         if (res != null) {
             return new Result<Factory>("10000", "", res);
         }
         return new Result<Factory>("10001", "查询失败", null);
+    }
+
+    @PostMapping("del")
+    public Result<Integer> deleteFactoryByPrimaryKey(@RequestBody Factory factory) {
+        return service.delFactory(factory);
+    }
+
+    @PostMapping("insert")
+    public Result<Factory> insertFactory(@RequestBody Factory factory) {
+        Factory res = service.insertFactory(factory);
+        if (res != null) {
+            return new Result<Factory>("10000", "", res);
+        }
+        return new Result<Factory>("10001", "插入失败", null);
+    }
+
+    @PostMapping("update")
+    public Result<Factory> updateFactory(@RequestBody Factory factory) {
+        Factory res = service.updateFactory(factory);
+        if (res != null) {
+            return new Result<Factory>("10000", "", res);
+        }
+        return new Result<Factory>("10001", "更新失败", null);
+    }
+
+    @GetMapping("search")//es根据工厂名检索
+    public Result<Page<Factory>> searchFactoryByName(Integer page, Integer pageSize, String q) {
+        return service.searchFactoryByName(page, pageSize, q);
+    }
+
+    @GetMapping("show")
+    public Result<Map<String,Object>> getFactoryVoById(Integer id) {
+        return service.getFactoryVoById(id);
     }
 
 }

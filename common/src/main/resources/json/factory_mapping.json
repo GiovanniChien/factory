@@ -1,0 +1,46 @@
+{
+  "doc": {
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "flag": {
+        "type": "integer"
+      },
+      "createTime": {
+        "type": "long"
+      },
+      "createUserid":{
+        "type":"integer"
+      },
+      "updateTime":{
+        "type":"long"
+      },
+      "updateUserid":{
+        "type":"integer"
+      },
+      "bak":{
+        "type":"text"
+      },
+      "factoryName":{
+        "type":"text",
+        "analyzer": "ik_max_word"
+      },
+      "factoryImgUrl":{
+        "type":"text"
+      },
+      "factoryAddr":{
+        "type":"text"
+      },
+      "factoryUrl":{
+        "type":"text"
+      },
+      "factoryWorker":{
+        "type":"integer"
+      },
+      "factoryStatus":{
+        "type":"integer"
+      }
+    }
+  }
+}

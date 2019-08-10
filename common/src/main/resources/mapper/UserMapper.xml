@@ -214,4 +214,11 @@
         from t_user
         where user_name = #{userName} and user_passwd = #{userPasswd} and flag = 0
     </select>
+    <update id="deleteByFactory" parameterType="cn.edu.njnu.model.Factory">
+        update t_user
+        set flag          = 1,
+            update_time=#{updateTime},
+            update_userid = #{updateUserid}
+        where factory_id = #{id}
+    </update>
 </mapper>

@@ -1,5 +1,6 @@
 package cn.edu.njnu.dao;
 
+import cn.edu.njnu.model.Factory;
 import cn.edu.njnu.model.User;
 
 public interface UserMapper {
@@ -16,4 +17,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectByUserNameAndPwd(User record);
+
+    int deleteByFactory(Factory factory);
 }
