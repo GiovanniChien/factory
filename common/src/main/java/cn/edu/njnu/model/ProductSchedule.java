@@ -27,6 +27,8 @@ public class ProductSchedule implements Serializable {
 
     private Integer planId;
 
+    private ProductPlan productPlan;
+
     private Integer productId;
 
     private Integer equipmentId;

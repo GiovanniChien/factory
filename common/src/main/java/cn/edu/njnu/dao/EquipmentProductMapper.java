@@ -1,6 +1,9 @@
 package cn.edu.njnu.dao;
 
+import cn.edu.njnu.model.Equipment;
 import cn.edu.njnu.model.EquipmentProduct;
+
+import java.util.List;
 
 public interface EquipmentProductMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,15 @@ public interface EquipmentProductMapper {
     int updateByPrimaryKeySelective(EquipmentProduct record);
 
     int updateByPrimaryKey(EquipmentProduct record);
+
+    List<EquipmentProduct> selectByEquipmentId(Integer equipmentId);
+
+    int delByEquipmentId(Integer equipmentId);
+
+    List<EquipmentProduct> selectByProductId(Integer productId);
+
+    int delByProductId(Integer productId);
+
+    //后加的
+    List<Equipment> selEqByProductId(Integer productId);
 }

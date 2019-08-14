@@ -1,212 +1,313 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.edu.njnu.dao.ProductScheduleMapper" >
-  <resultMap id="BaseResultMap" type="cn.edu.njnu.model.ProductSchedule" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="flag" property="flag" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_userid" property="updateUserid" jdbcType="INTEGER" />
-    <result column="schedule_seq" property="scheduleSeq" jdbcType="VARCHAR" />
-    <result column="schedule_count" property="scheduleCount" jdbcType="INTEGER" />
-    <result column="schedule_status" property="scheduleStatus" jdbcType="INTEGER" />
-    <result column="plan_id" property="planId" jdbcType="INTEGER" />
-    <result column="product_id" property="productId" jdbcType="INTEGER" />
-    <result column="equipment_id" property="equipmentId" jdbcType="INTEGER" />
-    <result column="start_date" property="startDate" jdbcType="DATE" />
-    <result column="end_date" property="endDate" jdbcType="DATE" />
-    <result column="factory_id" property="factoryId" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, flag, create_time, create_userid, update_time, update_userid, schedule_seq, schedule_count, 
+<mapper namespace="cn.edu.njnu.dao.ProductScheduleMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.njnu.model.ProductSchedule">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="flag" property="flag" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_userid" property="createUserid" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_userid" property="updateUserid" jdbcType="INTEGER"/>
+        <result column="schedule_seq" property="scheduleSeq" jdbcType="VARCHAR"/>
+        <result column="schedule_count" property="scheduleCount" jdbcType="INTEGER"/>
+        <result column="schedule_status" property="scheduleStatus" jdbcType="INTEGER"/>
+        <result column="plan_id" property="planId" jdbcType="INTEGER"/>
+        <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="equipment_id" property="equipmentId" jdbcType="INTEGER"/>
+        <result column="start_date" property="startDate" jdbcType="DATE"/>
+        <result column="end_date" property="endDate" jdbcType="DATE"/>
+        <result column="factory_id" property="factoryId" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="SPResultMap" type="cn.edu.njnu.model.ProductSchedule">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="flag" property="flag" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_userid" property="createUserid" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_userid" property="updateUserid" jdbcType="INTEGER"/>
+        <result column="schedule_seq" property="scheduleSeq" jdbcType="VARCHAR"/>
+        <result column="schedule_count" property="scheduleCount" jdbcType="INTEGER"/>
+        <result column="schedule_status" property="scheduleStatus" jdbcType="INTEGER"/>
+        <result column="plan_id" property="planId" jdbcType="INTEGER"/>
+        <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="equipment_id" property="equipmentId" jdbcType="INTEGER"/>
+        <result column="start_date" property="startDate" jdbcType="DATE"/>
+        <result column="end_date" property="endDate" jdbcType="DATE"/>
+        <result column="factory_id" property="factoryId" jdbcType="INTEGER"/>
+        <association property="productPlan" javaType="cn.edu.njnu.model.ProductPlan">
+            <id column="pid" property="id" jdbcType="INTEGER"/>
+            <result column="pflag" property="flag" jdbcType="INTEGER"/>
+            <result column="pcreate_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="pcreate_userid" property="createUserid" jdbcType="INTEGER"/>
+            <result column="pupdate_time" property="updateTime" jdbcType="TIMESTAMP"/>
+            <result column="pupdate_userid" property="updateUserid" jdbcType="INTEGER"/>
+            <result column="pplan_seq" property="planSeq" jdbcType="VARCHAR"/>
+            <result column="porder_id" property="orderId" jdbcType="INTEGER"/>
+            <result column="pproduct_id" property="productId" jdbcType="INTEGER"/>
+            <result column="pplan_count" property="planCount" jdbcType="INTEGER"/>
+            <result column="pdelivery_date" property="deliveryDate" jdbcType="DATE"/>
+            <result column="pplan_start_date" property="planStartDate" jdbcType="DATE"/>
+            <result column="pplan_end_date" property="planEndDate" jdbcType="DATE"/>
+            <result column="pplan_status" property="planStatus" jdbcType="INTEGER"/>
+            <result column="pfactory_id" property="factoryId" jdbcType="INTEGER"/>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, flag, create_time, create_userid, update_time, update_userid, schedule_seq, schedule_count,
     schedule_status, plan_id, product_id, equipment_id, start_date, end_date, factory_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_product_schedule
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_product_schedule
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.edu.njnu.model.ProductSchedule" >
-    insert into t_product_schedule (id, flag, create_time, 
-      create_userid, update_time, update_userid, 
-      schedule_seq, schedule_count, schedule_status, 
-      plan_id, product_id, equipment_id, 
-      start_date, end_date, factory_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserid,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserid,jdbcType=INTEGER}, 
-      #{scheduleSeq,jdbcType=VARCHAR}, #{scheduleCount,jdbcType=INTEGER}, #{scheduleStatus,jdbcType=INTEGER}, 
-      #{planId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{factoryId,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="cn.edu.njnu.model.ProductSchedule" >
-    insert into t_product_schedule
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="flag != null" >
-        flag,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="createUserid != null" >
-        create_userid,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="updateUserid != null" >
-        update_userid,
-      </if>
-      <if test="scheduleSeq != null" >
-        schedule_seq,
-      </if>
-      <if test="scheduleCount != null" >
-        schedule_count,
-      </if>
-      <if test="scheduleStatus != null" >
-        schedule_status,
-      </if>
-      <if test="planId != null" >
-        plan_id,
-      </if>
-      <if test="productId != null" >
-        product_id,
-      </if>
-      <if test="equipmentId != null" >
-        equipment_id,
-      </if>
-      <if test="startDate != null" >
-        start_date,
-      </if>
-      <if test="endDate != null" >
-        end_date,
-      </if>
-      <if test="factoryId != null" >
-        factory_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="flag != null" >
-        #{flag,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserid != null" >
-        #{createUserid,jdbcType=INTEGER},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserid != null" >
-        #{updateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="scheduleSeq != null" >
-        #{scheduleSeq,jdbcType=VARCHAR},
-      </if>
-      <if test="scheduleCount != null" >
-        #{scheduleCount,jdbcType=INTEGER},
-      </if>
-      <if test="scheduleStatus != null" >
-        #{scheduleStatus,jdbcType=INTEGER},
-      </if>
-      <if test="planId != null" >
-        #{planId,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null" >
-        #{productId,jdbcType=INTEGER},
-      </if>
-      <if test="equipmentId != null" >
-        #{equipmentId,jdbcType=INTEGER},
-      </if>
-      <if test="startDate != null" >
-        #{startDate,jdbcType=DATE},
-      </if>
-      <if test="endDate != null" >
-        #{endDate,jdbcType=DATE},
-      </if>
-      <if test="factoryId != null" >
-        #{factoryId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.njnu.model.ProductSchedule" >
-    update t_product_schedule
-    <set >
-      <if test="flag != null" >
-        flag = #{flag,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserid != null" >
-        create_userid = #{createUserid,jdbcType=INTEGER},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserid != null" >
-        update_userid = #{updateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="scheduleSeq != null" >
-        schedule_seq = #{scheduleSeq,jdbcType=VARCHAR},
-      </if>
-      <if test="scheduleCount != null" >
-        schedule_count = #{scheduleCount,jdbcType=INTEGER},
-      </if>
-      <if test="scheduleStatus != null" >
-        schedule_status = #{scheduleStatus,jdbcType=INTEGER},
-      </if>
-      <if test="planId != null" >
-        plan_id = #{planId,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null" >
-        product_id = #{productId,jdbcType=INTEGER},
-      </if>
-      <if test="equipmentId != null" >
-        equipment_id = #{equipmentId,jdbcType=INTEGER},
-      </if>
-      <if test="startDate != null" >
-        start_date = #{startDate,jdbcType=DATE},
-      </if>
-      <if test="endDate != null" >
-        end_date = #{endDate,jdbcType=DATE},
-      </if>
-      <if test="factoryId != null" >
-        factory_id = #{factoryId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.edu.njnu.model.ProductSchedule" >
-    update t_product_schedule
-    set flag = #{flag,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_userid = #{createUserid,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_userid = #{updateUserid,jdbcType=INTEGER},
-      schedule_seq = #{scheduleSeq,jdbcType=VARCHAR},
-      schedule_count = #{scheduleCount,jdbcType=INTEGER},
-      schedule_status = #{scheduleStatus,jdbcType=INTEGER},
-      plan_id = #{planId,jdbcType=INTEGER},
-      product_id = #{productId,jdbcType=INTEGER},
-      equipment_id = #{equipmentId,jdbcType=INTEGER},
-      start_date = #{startDate,jdbcType=DATE},
-      end_date = #{endDate,jdbcType=DATE},
-      factory_id = #{factoryId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    </sql>
+    <sql id="S_P_Column">
+        s.id, s.flag, s.create_time, s.create_userid, s.update_time, s.update_userid, s.schedule_seq, s.schedule_count,
+    s.schedule_status, s.plan_id, s.product_id, s.equipment_id, s.start_date, s.end_date, s.factory_id,
+		p.id pid, p.flag pflag, p.create_time pcreate_time, p.create_userid pcreate_userid, p.update_time pupdate_time,
+		p.update_userid pupdate_userid, p.plan_seq pplan_seq, p.order_id porder_id,p.product_id pproduct_id, p.plan_count pplan_count,
+		p.delivery_date pdelivery_date, p.plan_start_date pplan_start_date, p.plan_end_date pplan_end_date, p.plan_status pplan_status,
+    p.factory_id pfactory_id
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product_schedule
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="SPResultMap">
+        select
+        <include refid="S_P_Column"/>
+        from t_product_schedule s join t_product_plan p on s.plan_id = p.id
+        <where>
+            s.factory_id = #{factoryId} and s.flag = 0
+            <if test="productPlan!=null and productPlan.planSeq!=null and productPlan.planSeq!=''">
+                and p.plan_seq like concat(#{productPlan.planSeq},'%')
+            </if>
+            <if test="scheduleSeq!=null and scheduleSeq != ''">
+                and s.schedule_seq like concat(#{scheduleSeq},'%')
+            </if>
+            <if test="productId!=null and productId != 0">
+                and s.product_id = #{productId}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from t_product_schedule
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="cn.edu.njnu.model.ProductSchedule">
+        insert into t_product_schedule (id, flag, create_time,
+                                        create_userid, update_time, update_userid,
+                                        schedule_seq, schedule_count, schedule_status,
+                                        plan_id, product_id, equipment_id,
+                                        start_date, end_date, factory_id)
+        values (#{id,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+                #{createUserid,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserid,jdbcType=INTEGER},
+                #{scheduleSeq,jdbcType=VARCHAR}, #{scheduleCount,jdbcType=INTEGER}, #{scheduleStatus,jdbcType=INTEGER},
+                #{planId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER},
+                #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{factoryId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.edu.njnu.model.ProductSchedule">
+        insert into t_product_schedule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserid != null">
+                create_userid,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserid != null">
+                update_userid,
+            </if>
+            <if test="scheduleSeq != null">
+                schedule_seq,
+            </if>
+            <if test="scheduleCount != null">
+                schedule_count,
+            </if>
+            <if test="scheduleStatus != null">
+                schedule_status,
+            </if>
+            <if test="planId != null">
+                plan_id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="equipmentId != null">
+                equipment_id,
+            </if>
+            <if test="startDate != null">
+                start_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="factoryId != null">
+                factory_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserid != null">
+                #{createUserid,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserid != null">
+                #{updateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="scheduleSeq != null">
+                #{scheduleSeq,jdbcType=VARCHAR},
+            </if>
+            <if test="scheduleCount != null">
+                #{scheduleCount,jdbcType=INTEGER},
+            </if>
+            <if test="scheduleStatus != null">
+                #{scheduleStatus,jdbcType=INTEGER},
+            </if>
+            <if test="planId != null">
+                #{planId,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=INTEGER},
+            </if>
+            <if test="equipmentId != null">
+                #{equipmentId,jdbcType=INTEGER},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=DATE},
+            </if>
+            <if test="factoryId != null">
+                #{factoryId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.edu.njnu.model.ProductSchedule">
+        update t_product_schedule
+        <set>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserid != null">
+                create_userid = #{createUserid,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserid != null">
+                update_userid = #{updateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="scheduleSeq != null">
+                schedule_seq = #{scheduleSeq,jdbcType=VARCHAR},
+            </if>
+            <if test="scheduleCount != null">
+                schedule_count = #{scheduleCount,jdbcType=INTEGER},
+            </if>
+            <if test="scheduleStatus != null">
+                schedule_status = #{scheduleStatus,jdbcType=INTEGER},
+            </if>
+            <if test="planId != null">
+                plan_id = #{planId,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=INTEGER},
+            </if>
+            <if test="equipmentId != null">
+                equipment_id = #{equipmentId,jdbcType=INTEGER},
+            </if>
+            <if test="startDate != null">
+                start_date = #{startDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=DATE},
+            </if>
+            <if test="factoryId != null">
+                factory_id = #{factoryId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.njnu.model.ProductSchedule">
+        update t_product_schedule
+        set flag            = #{flag,jdbcType=INTEGER},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            create_userid   = #{createUserid,jdbcType=INTEGER},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP},
+            update_userid   = #{updateUserid,jdbcType=INTEGER},
+            schedule_seq    = #{scheduleSeq,jdbcType=VARCHAR},
+            schedule_count  = #{scheduleCount,jdbcType=INTEGER},
+            schedule_status = #{scheduleStatus,jdbcType=INTEGER},
+            plan_id         = #{planId,jdbcType=INTEGER},
+            product_id      = #{productId,jdbcType=INTEGER},
+            equipment_id    = #{equipmentId,jdbcType=INTEGER},
+            start_date      = #{startDate,jdbcType=DATE},
+            end_date        = #{endDate,jdbcType=DATE},
+            factory_id      = #{factoryId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="hasRelatedSchedule" resultType="_int">
+        select count(*)
+        from t_product_schedule
+        where plan_id = #{planId}
+          and flag = 0
+    </select>
+    <select id="hasRelatedUnfinishedSchedule" resultType="_int">
+        select count(*)
+        from t_product_schedule
+        where plan_id = #{planId}
+          and flag = 0
+          and schedule_status != 30
+    </select>
+    <select id="getScheduleSeq" resultType="string">
+        select max(schedule_seq)
+        from t_product_schedule
+    </select>
+    <select id="hasFinishedNum" resultType="_int">
+        select IFNULL(sum(schedule_count), 0)
+        from t_product_schedule
+        where plan_id = #{planId}
+          and schedule_status = 30
+          and flag = 0
+    </select>
+    <select id="getProduceNum" resultType="_int">
+        select IFNULL(sum(schedule_count), 0)
+        from t_product_schedule
+        where plan_id = #{planId}
+          and schedule_status = 20
+          and flag = 0
+    </select>
+    <select id="selectById" resultMap="SPResultMap">
+        select
+        <include refid="S_P_Column"/>
+        from t_product_schedule s join t_product_plan p on s.plan_id = p.id
+        where s.id = #{id}
+    </select>
+    <select id="selectByPlanId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product_schedule
+        where plan_id = #{planId} and flag = 0
+    </select>
 </mapper>

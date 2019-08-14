@@ -32,6 +32,11 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  jackson:
+    time-zone: GMT+8
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9300
 
 mybatis:
   config-location: classpath:mybatis-config.xml

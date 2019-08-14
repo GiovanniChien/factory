@@ -23,6 +23,8 @@ public class ProductPlan implements Serializable {
 
     private Integer orderId;
 
+    private ProductOrder productOrder;
+
     private Integer productId;
 
     private Integer planCount;

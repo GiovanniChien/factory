@@ -13,26 +13,46 @@
     <result column="product_img_url" property="productImgUrl" jdbcType="VARCHAR" />
     <result column="factory_id" property="factoryId" jdbcType="INTEGER" />
   </resultMap>
+
   <sql id="Base_Column_List" >
-    id, flag, create_time, create_userid, update_time, update_userid, product_num, product_name, 
+    id, flag, create_time, create_userid, update_time, update_userid, product_num, product_name,
     product_img_url, factory_id
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from t_product
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and flag=0
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+
+  <select id="selectByPrimaryKeyWithoutFlag" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from t_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByFactoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from t_product
+    where flag = 0 and factory_id=#{factoryId}
+  </select>
+
+  <select id="selectByProductNum" resultMap="BaseResultMap" parameterType="cn.edu.njnu.model.Product" >
+    select
+    <include refid="Base_Column_List" />
+    from t_product
+    where flag = 0 and product_num = #{productNum} and factory_id = #{factoryId}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_product
+    update t_product
+    set flag = 1
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="cn.edu.njnu.model.Product" >
     insert into t_product (id, flag, create_time, 
       create_userid, update_time, update_userid, 
@@ -43,7 +63,7 @@
       #{productNum,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{productImgUrl,jdbcType=VARCHAR}, 
       #{factoryId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="cn.edu.njnu.model.Product" >
+  <insert id="insertSelective" parameterType="cn.edu.njnu.model.Product" useGeneratedKeys="true" keyProperty="id">
     insert into t_product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -156,4 +176,14 @@
       factory_id = #{factoryId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--<select id="selectListByIds" resultMap="BaseResultMap" parameterType="list" >-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from t_product-->
+    <!--where flag = 0 and id in-->
+    <!--<foreach collection="list" item="id" open="(" separator="," close=")">-->
+      <!--#{id}-->
+    <!--</foreach>-->
+  <!--</select>-->
 </mapper>

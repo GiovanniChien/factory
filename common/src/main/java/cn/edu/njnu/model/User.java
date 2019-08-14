@@ -1,6 +1,9 @@
 package cn.edu.njnu.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Mapping;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +13,10 @@ import java.util.Date;
  * @author Giovanni-Ch'ien
  */
 @Data
+@Document(indexName = "user", type = "doc", shards = 1, replicas = 0)
+@Mapping(mappingPath = "/json/user_mapping.json")
 public class User implements Serializable {
+    @Id
     private Integer id;
 
     private Integer flag;

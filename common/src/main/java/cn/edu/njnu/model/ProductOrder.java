@@ -21,7 +21,7 @@ public class ProductOrder implements Serializable {
 
     private String orderSeq;
 
-    private Integer orderSource;
+    private String orderSource;
 
     private Integer productId;
 

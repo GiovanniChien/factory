@@ -1,0 +1,43 @@
+{
+  "doc": {
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "flag": {
+        "type": "integer"
+      },
+      "createTime": {
+        "type": "long"
+      },
+      "createUserid":{
+        "type":"integer"
+      },
+      "updateTime":{
+        "type":"long"
+      },
+      "updateUserid":{
+        "type":"integer"
+      },
+      "equipmentSeq":{
+        "type":"text"
+      },
+      "equipmentName":{
+        "type":"text",
+        "analyzer": "ik_max_word"
+      },
+      "equipmentImgUrl":{
+        "type":"text"
+      },
+
+      "factoryId":{
+        "type":"integer"
+      },
+      "equipmentStatus":{
+        "type":"integer"
+      }
+    }
+  }
+}
+
+

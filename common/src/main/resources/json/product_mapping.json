@@ -1,0 +1,37 @@
+{
+  "doc": {
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "flag": {
+        "type": "integer"
+      },
+      "createTime": {
+        "type": "long"
+      },
+      "createUserid":{
+        "type":"integer"
+      },
+      "updateTime":{
+        "type":"long"
+      },
+      "updateUserid":{
+        "type":"integer"
+      },
+      "productNum":{
+        "type":"text"
+      },
+      "productName":{
+        "type":"text",
+        "analyzer": "ik_max_word"
+      },
+      "productImgUrl":{
+        "type":"text"
+      },
+      "factoryId":{
+        "type":"integer"
+      }
+    }
+  }
+}

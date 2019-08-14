@@ -1,14 +1,27 @@
 package cn.edu.njnu.service;
 
 import cn.edu.njnu.dao.EquipmentMapper;
-import cn.edu.njnu.dao.EquipmentProductMapper;
 import cn.edu.njnu.model.Equipment;
+import cn.edu.njnu.repository.EquipmentRepository;
 import cn.edu.njnu.vo.Result;
+import org.springframework.data.domain.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EquipmentService {
@@ -16,127 +29,120 @@ public class EquipmentService {
     @Autowired
     EquipmentMapper equipmentMapper;
 
-    public Result<Equipment> getEquipmentById(Integer id){
-        Result<Equipment> result=new Result<>();
-        try{
+    @Autowired
+    private EquipmentRepository equipmentRepository;
 
-            Equipment equipment=equipmentMapper.selectByPrimaryKey(id);
 
-            if(!equipment.equals(null)){
-                result.setCode("10000");
-                result.setMsg("查询成功");
-                result.setData(equipment);
-            }
-            else
-            {
-                result.setCode("10001");
-                result.setMsg("查询失败");
-                result.setData(null);
-            }
-        }
-            catch (Exception e) {
-                result.setCode("10002");
-                result.setMsg("该设备不存在");
-                result.setData(null);
+    public Result<PageInfo<Equipment>> selectAll(Integer currPage, Integer pageNum, Integer factoryId) {
+        if (currPage == null) currPage = 1;
+        PageHelper.startPage(currPage, pageNum);
+        try {
+            List<Equipment> equipments = equipmentMapper.selectByFactoryId(factoryId);
+            if (equipments != null) {
+                PageInfo<Equipment> pageInfo = new PageInfo<>(equipments);
+                return new Result<>("10000", "操作成功", pageInfo);
+            } else return new Result<>("10001", "操作失败", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result<>("10002", "操作异常", null);
         }
 
 
-         return  result;
     }
 
-    public Result<List<Equipment>>  selectAll(){
-        Result<List<Equipment>> result=new Result<>();
-        try{
-            List<Equipment> list=equipmentMapper.selectAll();
-            result.setCode("10000");
-            result.setMsg("查询成功");
-            result.setData(list);
-        }catch (Exception e) {
-            result.setCode("10001");
-            result.setMsg("查询失败");
-            result.setData(null);
-        }
-        return  result;
-    }
+    @Cacheable(value = "equipment", key = "#id", unless = "#result == null")
+    public Equipment getEquipmentById(Integer id) {
+        return equipmentMapper.selectByPrimaryKey(id);
 
-    public  Result<Equipment>  insert(Equipment equipment){
-        Result<Equipment> result=new Result<>();
-
-        try{
-            int i=equipmentMapper.insertSelective(equipment);
-            if(i>0){
-                result.setCode("10000");
-                result.setMsg("插入成功");
-                result.setData(equipment);
-            }
-            else {
-                result.setCode("10001");
-                result.setMsg("插入失败");
-                result.setData(equipment);
-            }
-        }catch (Exception e){
-            result.setCode("10002");
-            result.setMsg("插入失败");
-            result.setData(equipment);
-        }
-
-        return  result;
     }
 
 
-    public  Result<Equipment> deleteById(Integer id){
-        Result<Equipment> result=new Result<>();
+    @CachePut(value = "equipment", key = "#equipment.id", unless = "#result eq null")
+    public Equipment update(Equipment equipment) {
+
+        equipment.setUpdateTime(new Date());
+        equipmentMapper.updateByPrimaryKeySelective(equipment);
+        equipment=equipmentMapper.selectByPrimaryKey(equipment.getId());
+        equipmentRepository.save(equipment);
+        return equipment;
+    }
+
+
+    @CacheEvict(value = "equipment", key = "#equipment.id")
+    public  Result<Integer> del(Equipment equipment){
         try{
-            Equipment equipment=equipmentMapper.selectByPrimaryKey(id);  //查询要删除设备信息
-            if(!equipment.equals(null)){
-                result.setCode("10000");
-                result.setMsg("删除成功");
-                result.setData(equipment);                 //             存入要删除的设备信息
+            equipment.setFlag(1);
+            equipment.setUpdateTime(new Date());
+            int i=equipmentMapper.updateByPrimaryKeySelective(equipment);
+            if(i!=0){
+                equipmentRepository.deleteById(equipment.getId());
+                return new Result<>("10000","",i);
             }
-            else {
-                result.setCode("10001");
-                result.setMsg("删除失败");
-                result.setData(equipment);
-
-            }
-
-            int i=equipmentMapper.deleteByPrimaryKey(id);
+            return new Result<>("10001","删除失败",0);
         } catch (Exception e){
-            result.setCode("10002");
-            result.setMsg("该设备不存在");
-            result.setData(null);
-
+            e.printStackTrace();
+            return new Result<>("10002","删除失败",0);
         }
-
-        return  result;
-
     }
 
-    public  Result<Equipment> update(Equipment equipment){
-        Result<Equipment> result=new Result<>();
+
+
+    @CachePut(value = "equipment", key = "#equipment.id", unless = "#result eq null")
+    public Equipment insert(Equipment equipment){
+        equipment.setFlag(0);
+        equipment.setEquipmentStatus(20);
+        Date date=new Date();
+        equipment.setUpdateTime(date);
+        equipment.setCreateTime(date);
         try{
-            Equipment  eq=equipmentMapper.selectByPrimaryKey(equipment.getId());  //获取更新后的equipment
-            if(!eq.equals(null)){                                                                //更新成功
-                result.setCode("10000");
-                result.setMsg("更新成功");
-                result.setData(eq);                                                //存入更新后的equipment
-            }
-            else {
-                result.setCode("10001");
-                result.setMsg("更新失败");
-                result.setData(equipment);                                        //存入更新前的equipment
-            }
-            int i=equipmentMapper.updateByPrimaryKey(equipment);
+            equipmentMapper.insertSelective(equipment);
+            equipmentRepository.save(equipment);
+            return equipment;
         }catch (Exception e){
-            result.setCode("10002");
-            result.setMsg("该设备不存在");
-            result.setData(equipment);
+            return  null;
         }
-        return  result;
     }
 
+    public Result<Page<Equipment>> getEquipmentByName(Integer currPage, Integer pageSize, String name, Integer facrotyId) {
+        try {
+            String key = URLDecoder.decode(name, "UTF-8");
+            NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+            queryBuilder.withQuery(QueryBuilders.matchQuery("equipmentName", key));
+            queryBuilder.withPageable(PageRequest.of(currPage - 1, pageSize));
+            Page<Equipment> factories = equipmentRepository.search(queryBuilder.build());
+            return new Result<>("10000", "查询成功", factories);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new Result<>("10001", "查询失败", null);
+        }
+    }
 
+    public Equipment getEquipmentBySeq(Equipment equipment){
+        return equipmentMapper.selectByEquipmentSeq(equipment);
+    }
 
-
-
+    //后加的
+    public Result<Map<String, Object>> statisticEq(Integer factoryId) {
+        try {
+            int total, bootNum, downNum, faultNum;
+            float bootRate = 0, downRate = 0, faultRate = 0;
+            total = equipmentMapper.statisticsEq(factoryId, 0);
+            if (total != 0) {
+                bootNum = equipmentMapper.statisticsEq(factoryId, 10);
+                downNum = equipmentMapper.statisticsEq(factoryId, 20);
+                faultNum = equipmentMapper.statisticsEq(factoryId, 30);
+                bootRate = (float) (bootNum * 1.0 / total);
+                downRate = (float) (downNum * 1.0 / total);
+                faultRate = (float) (faultNum * 1.0 / total);
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("bootRate", bootRate);
+            map.put("downRate", downRate);
+            map.put("faultRate", faultRate);
+            return new Result<>("10000", "", map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result<>("10002", "获取失败", null);
+        }
+    }
 }

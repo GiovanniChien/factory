@@ -23,6 +23,16 @@ public class ResourceController {
         return upload(file, baseDirPath + "factory/");
     }
 
+    @RequestMapping("product")
+    public String uploadProductImg(@RequestParam("file") MultipartFile file){
+        return upload(file,baseDirPath+"product/");
+    }
+
+    @RequestMapping("equipment")
+    public String uploadEquipmentImg(@RequestParam("file") MultipartFile file){
+        return upload(file,baseDirPath+"equipment/");
+    }
+
     private String upload(MultipartFile file, String dirPath) {
         //获取文件原名
         String originalName = file.getOriginalFilename();

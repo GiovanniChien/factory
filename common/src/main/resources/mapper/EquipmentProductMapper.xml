@@ -1,106 +1,150 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.edu.njnu.dao.EquipmentProductMapper" >
-  <resultMap id="BaseResultMap" type="cn.edu.njnu.model.EquipmentProduct" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="equipment_id" property="equipmentId" jdbcType="INTEGER" />
-    <result column="product_id" property="productId" jdbcType="INTEGER" />
-    <result column="yield" property="yield" jdbcType="INTEGER" />
-    <result column="unit" property="unit" jdbcType="INTEGER" />
-    <result column="factory_id" property="factoryId" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, equipment_id, product_id, yield, unit, factory_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_equipment_product
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_equipment_product
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.edu.njnu.model.EquipmentProduct" >
-    insert into t_equipment_product (id, equipment_id, product_id, 
-      yield, unit, factory_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
-      #{yield,jdbcType=INTEGER}, #{unit,jdbcType=INTEGER}, #{factoryId,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="cn.edu.njnu.model.EquipmentProduct" >
-    insert into t_equipment_product
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="equipmentId != null" >
-        equipment_id,
-      </if>
-      <if test="productId != null" >
-        product_id,
-      </if>
-      <if test="yield != null" >
-        yield,
-      </if>
-      <if test="unit != null" >
-        unit,
-      </if>
-      <if test="factoryId != null" >
-        factory_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="equipmentId != null" >
-        #{equipmentId,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null" >
-        #{productId,jdbcType=INTEGER},
-      </if>
-      <if test="yield != null" >
-        #{yield,jdbcType=INTEGER},
-      </if>
-      <if test="unit != null" >
-        #{unit,jdbcType=INTEGER},
-      </if>
-      <if test="factoryId != null" >
-        #{factoryId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.njnu.model.EquipmentProduct" >
-    update t_equipment_product
-    <set >
-      <if test="equipmentId != null" >
-        equipment_id = #{equipmentId,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null" >
-        product_id = #{productId,jdbcType=INTEGER},
-      </if>
-      <if test="yield != null" >
-        yield = #{yield,jdbcType=INTEGER},
-      </if>
-      <if test="unit != null" >
-        unit = #{unit,jdbcType=INTEGER},
-      </if>
-      <if test="factoryId != null" >
-        factory_id = #{factoryId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.edu.njnu.model.EquipmentProduct" >
-    update t_equipment_product
-    set equipment_id = #{equipmentId,jdbcType=INTEGER},
-      product_id = #{productId,jdbcType=INTEGER},
-      yield = #{yield,jdbcType=INTEGER},
-      unit = #{unit,jdbcType=INTEGER},
-      factory_id = #{factoryId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="cn.edu.njnu.dao.EquipmentProductMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.njnu.model.EquipmentProduct">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="equipment_id" property="equipmentId" jdbcType="INTEGER"/>
+        <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="yield" property="yield" jdbcType="INTEGER"/>
+        <result column="unit" property="unit" jdbcType="INTEGER"/>
+        <result column="factory_id" property="factoryId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, equipment_id, product_id, yield, unit, factory_id
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_equipment_product
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from t_equipment_product
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="cn.edu.njnu.model.EquipmentProduct">
+        insert into t_equipment_product (id, equipment_id, product_id,
+                                         yield, unit, factory_id)
+        values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER},
+                #{yield,jdbcType=INTEGER}, #{unit,jdbcType=INTEGER}, #{factoryId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.edu.njnu.model.EquipmentProduct">
+        insert into t_equipment_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="equipmentId != null">
+                equipment_id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="yield != null">
+                yield,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="factoryId != null">
+                factory_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="equipmentId != null">
+                #{equipmentId,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=INTEGER},
+            </if>
+            <if test="yield != null">
+                #{yield,jdbcType=INTEGER},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=INTEGER},
+            </if>
+            <if test="factoryId != null">
+                #{factoryId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.edu.njnu.model.EquipmentProduct">
+        update t_equipment_product
+        <set>
+            <if test="equipmentId != null">
+                equipment_id = #{equipmentId,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=INTEGER},
+            </if>
+            <if test="yield != null">
+                yield = #{yield,jdbcType=INTEGER},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=INTEGER},
+            </if>
+            <if test="factoryId != null">
+                factory_id = #{factoryId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.njnu.model.EquipmentProduct">
+        update t_equipment_product
+        set equipment_id = #{equipmentId,jdbcType=INTEGER},
+            product_id   = #{productId,jdbcType=INTEGER},
+            yield        = #{yield,jdbcType=INTEGER},
+            unit         = #{unit,jdbcType=INTEGER},
+            factory_id   = #{factoryId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByEquipmentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_equipment_product
+        where equipment_id = #{equipmentId,jdbcType=INTEGER}
+    </select>
+    <delete id="delByEquipmentId" parameterType="java.lang.Integer">
+        delete
+        from t_equipment_product
+        where equipment_id = #{equipmentId,jdbcType=INTEGER}
+    </delete>
+    <select id="selectByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_equipment_product
+        where product_id = #{productId,jdbcType=INTEGER}
+    </select>
+    <delete id="delByProductId" parameterType="java.lang.Integer">
+        delete
+        from t_equipment_product
+        where product_id = #{productId,jdbcType=INTEGER}
+    </delete>
+
+    <!--后加的-->
+    <select id="selEqByProductId" resultType="cn.edu.njnu.model.Equipment">
+        SELECT e.id,
+               e.flag,
+               e.create_time,
+               e.create_userid,
+               e.update_time,
+               e.update_userid,
+               e.equipment_seq,
+               e.equipment_name,
+               e.equipment_img_url,
+               e.equipment_status,
+               e.factory_id
+        FROM t_equipment e
+                 join t_equipment_product ep on e.id = ep.equipment_id
+                 join t_product p on ep.product_id = p.id
+        where e.equipment_status = 10
+          and e.flag = 0
+          and p.id = #{productId}
+    </select>
+
 </mapper>

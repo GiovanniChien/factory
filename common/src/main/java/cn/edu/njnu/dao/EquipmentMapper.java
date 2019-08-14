@@ -1,6 +1,7 @@
 package cn.edu.njnu.dao;
 
 import cn.edu.njnu.model.Equipment;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +18,11 @@ public interface EquipmentMapper {
 
     int updateByPrimaryKey(Equipment record);
 
-    List<Equipment> selectAll();
+    List<Equipment> selectByFactoryId(Integer factoryId);
+
+    Equipment selectByEquipmentSeq(Equipment equipment);
+
+    /*后加*/
+    int statisticsEq(@Param("factoryId") Integer factoryId, @Param("equipmentStatus") Integer equipmentStatus);
+
 }

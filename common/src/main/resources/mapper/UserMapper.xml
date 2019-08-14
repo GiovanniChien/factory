@@ -18,15 +18,23 @@
         <result column="role_id" property="roleId" jdbcType="INTEGER"/>
         <result column="factory_id" property="factoryId" jdbcType="INTEGER"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         id, flag, create_time, create_userid, update_time, update_userid, user_status, user_name,
     user_real_name, user_passwd, user_job_num, user_phone_num, user_email, role_id, factory_id
     </sql>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from t_user
         where id = #{id,jdbcType=INTEGER} and flag = 0
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where (factory_id=#{factoryId} or role_id = 0) and flag = 0
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -45,7 +53,7 @@
                 #{userPasswd,jdbcType=VARCHAR}, #{userJobNum,jdbcType=VARCHAR}, #{userPhoneNum,jdbcType=CHAR},
                 #{userEmail,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{factoryId,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="cn.edu.njnu.model.User">
+    <insert id="insertSelective" parameterType="cn.edu.njnu.model.User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -221,4 +229,9 @@
             update_userid = #{updateUserid}
         where factory_id = #{id}
     </update>
+    <select id="isUserNameExist" resultType="integer">
+        select id
+        from t_user
+        where user_name = #{userName}
+    </select>
 </mapper>

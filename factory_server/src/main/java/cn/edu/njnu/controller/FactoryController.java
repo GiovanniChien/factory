@@ -7,10 +7,7 @@ import cn.edu.njnu.vo.Result;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +19,7 @@ public class FactoryController {
     private FactoryService service;
 
     @GetMapping("factory")
-    public Result<Factory> getFactoryByPrimaryId(Integer id) {
+    public Result<Factory> getFactoryByPrimaryId(@RequestParam Integer id) {
         Factory factory = service.getFactoryByPrimaryKey(id);
         if (factory != null) {
             return new Result<Factory>("10000", "", factory);
@@ -82,7 +79,7 @@ public class FactoryController {
     }
 
     @GetMapping("show")
-    public Result<Map<String,Object>> getFactoryVoById(Integer id) {
+    public Result<Map<String, Object>> getFactoryVoById(Integer id) {
         return service.getFactoryVoById(id);
     }
 
